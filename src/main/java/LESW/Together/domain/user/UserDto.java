@@ -9,6 +9,9 @@ public class UserDto {
     private String password;
     private String username;
 
+    public UserDto() {
+    }
+
     public UserDto(String userId, String password, String username) {
         this.userId = userId;
         this.password = password;
