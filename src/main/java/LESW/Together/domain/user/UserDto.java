@@ -2,11 +2,18 @@ package LESW.Together.domain.user;
 
 import lombok.Getter;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 public class UserDto {
 
+    @NotBlank
     private String userId;
+
+    @NotBlank
     private String password;
+
+    @NotBlank
     private String username;
 
     public UserDto() {
