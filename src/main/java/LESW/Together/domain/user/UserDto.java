@@ -13,8 +13,6 @@ public class UserDto {
     @NotBlank
     private String password;
 
-    @NotBlank
-    private String username;
 
     public UserDto() {
     }
@@ -22,6 +20,5 @@ public class UserDto {
     public UserDto(String userId, String password, String username) {
         this.userId = userId;
         this.password = password;
-        this.username = username;
     }
 }
