@@ -1,9 +1,8 @@
 package LESW.Together.service;
 
 import LESW.Together.domain.user.User;
-import LESW.Together.repository.UserRepository;
+import LESW.Together.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -30,9 +29,8 @@ public class UserService {
         return user.get();
     }
 
-    public User remove(Long id) {
+    public void remove(Long id) {
         repository.deleteUser(id);
-        return null;
     }
 
     public void update(Long id, User updateUser) {

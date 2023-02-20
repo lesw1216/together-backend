@@ -1,4 +1,4 @@
-package LESW.Together.repository;
+package LESW.Together.domain.user.repository;
 
 import LESW.Together.domain.user.User;
 
@@ -15,5 +15,5 @@ public interface UserRepository {
 
     void updateUser(Long id, User updateUser);
 
-    User deleteUser(Long id);
+    void deleteUser(Long id);
 }

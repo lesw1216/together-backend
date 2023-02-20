@@ -10,10 +10,10 @@ import javax.persistence.Id;
 
 @Getter
 @Setter
-@Entity(name = "users")
+//@Entity(name = "users")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String userId;

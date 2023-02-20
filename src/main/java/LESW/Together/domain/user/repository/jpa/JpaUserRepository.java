@@ -1,7 +1,7 @@
-package LESW.Together.repository.jpa;
+package LESW.Together.domain.user.repository.jpa;
 
 import LESW.Together.domain.user.User;
-import LESW.Together.repository.UserRepository;
+import LESW.Together.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+//@Repository
 public class JpaUserRepository implements UserRepository {
 
     private final EntityManager em;
@@ -45,7 +45,6 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public User deleteUser(Long id) {
-        return null;
+    public void deleteUser(Long id) {
     }
 }
