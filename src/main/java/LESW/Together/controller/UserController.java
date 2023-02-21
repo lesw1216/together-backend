@@ -19,16 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
-    private final PasswordEncoder passwordEncoder;
     private final UserService userService;
 
-    private final ValidatorMessage validatorMessage;
     @Autowired
-    public UserController(PasswordEncoder passwordEncoder, UserService userService, ValidatorMessage validatorMessage) {
-        this.passwordEncoder = passwordEncoder;
+
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.validatorMessage = validatorMessage;
     }
+
 
 
 

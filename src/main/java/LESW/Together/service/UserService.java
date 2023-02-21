@@ -47,7 +47,7 @@ public class UserService {
 
     public User findById(Long id) {
         Optional<User> user = userRepository.readUser(id);
-        return user.get();
+        return user.orElse(null);
     }
 
     public void remove(Long id) {
