@@ -2,7 +2,6 @@ package LESW.Together.domain.user.repository.jpa;
 
 import LESW.Together.domain.user.User;
 import LESW.Together.domain.user.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import java.util.List;

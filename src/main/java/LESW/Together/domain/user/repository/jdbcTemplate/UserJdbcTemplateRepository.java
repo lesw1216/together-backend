@@ -51,8 +51,8 @@ public class UserJdbcTemplateRepository implements UserRepository {
 
     @Override
     public Optional<User> readUser(Long id) {
-        String sql = "select * from users where id=:id";
-        User findUserById = template.queryForObject(sql, new MapSqlParameterSource("id", id), new BeanPropertyRowMapper<>(User.class));
+        String sql = "select id, user_id, password, user_name, user_role from users where id=:id";
+        User findUserById = template.queryForObject(sql, new MapSqlParameterSource("id", id), BeanPropertyRowMapper.newInstance(User.class));
         return Optional.ofNullable(findUserById);
     }
 
@@ -76,8 +76,6 @@ public class UserJdbcTemplateRepository implements UserRepository {
     @Override
     public void deleteUser(Long id) {
         String sql = "delete from users where id=:id";
-        Optional<User> findUser = readUser(id);
         template.update(sql, new MapSqlParameterSource("id", id));
-        log.info("삭제된 회원[{}]", findUser.isPresent() ? findUser.get().toString() : "deleteUser가 실행되어선 안됩니다.");
     }
 }

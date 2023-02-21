@@ -1,4 +1,4 @@
-package LESW.Together.service;
+package LESW.Together.domain.user.service;
 
 import LESW.Together.domain.user.Question;
 import LESW.Together.domain.user.SignupUserDTO;

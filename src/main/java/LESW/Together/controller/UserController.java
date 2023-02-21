@@ -1,13 +1,10 @@
 package LESW.Together.controller;
 
 import LESW.Together.domain.user.SignupUserDTO;
-import LESW.Together.domain.user.User;
 import LESW.Together.domain.user.FieldErrorMessageOfSignupUser;
-import LESW.Together.service.UserService;
-import LESW.Together.validator.ValidatorMessage;
+import LESW.Together.domain.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
