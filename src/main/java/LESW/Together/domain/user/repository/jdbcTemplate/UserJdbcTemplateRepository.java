@@ -5,6 +5,7 @@ import LESW.Together.domain.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -12,6 +13,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -46,13 +49,25 @@ public class UserJdbcTemplateRepository implements UserRepository {
         template.update(sql, params, keyHolder);
         long key = Objects.requireNonNull(keyHolder.getKey()).longValue();
         user.setId(key);
+        log.info("user.setId={}", user.getId());
         return user;
     }
 
     @Override
     public Optional<User> readUser(Long id) {
         String sql = "select id, user_id, password, user_name, user_role from users where id=:id";
-        User findUserById = template.queryForObject(sql, new MapSqlParameterSource("id", id), BeanPropertyRowMapper.newInstance(User.class));
+        MapSqlParameterSource params = new MapSqlParameterSource("id", id);
+
+        User findUserById = template.queryForObject(sql, params, (rs, rowNum) -> {
+            User user = new User();
+            user.setId(rs.getLong("id"));
+            user.setUserId(rs.getString("user_id"));
+            user.setPassword(rs.getString("password"));
+            user.setUserName(rs.getString("user_name"));
+            user.setUserRole(rs.getString("user_role"));
+            return user;
+        });
+
         return Optional.ofNullable(findUserById);
     }
 
