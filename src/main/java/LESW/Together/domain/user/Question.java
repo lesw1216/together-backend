@@ -7,8 +7,25 @@ import lombok.Setter;
 @Getter
 public class Question {
 
-    private String userId;
+    private Long id;
     private int keyNum;
     private String keyValue;
 
+    public Question(Long userIndexId, int keyNum, String keyValue) {
+        this.id = userIndexId;
+        this.keyNum = keyNum;
+        this.keyValue = keyValue;
+    }
+
+    public Question() {
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "userId='" + id + '\'' +
+                ", keyNum=" + keyNum +
+                ", keyValue='" + keyValue + '\'' +
+                '}';
+    }
 }

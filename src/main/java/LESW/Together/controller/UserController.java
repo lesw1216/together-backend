@@ -47,9 +47,7 @@ public class UserController {
         }
 
 
-        String hashPassword = passwordEncoder.encode(signUpUserDTO.getPassword());
-        User saveUser = userService.save(new User(signUpUserDTO.getUserId(), hashPassword, signUpUserDTO.getUsername(), null));
-        log.info("회원가입[{}]", saveUser);
-        return saveUser;
+        userService.save(signUpUserDTO);
+        return null;
     }
 }

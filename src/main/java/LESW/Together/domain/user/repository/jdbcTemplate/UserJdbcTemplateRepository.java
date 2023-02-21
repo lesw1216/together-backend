@@ -1,10 +1,10 @@
 package LESW.Together.domain.user.repository.jdbcTemplate;
 
-import LESW.Together.domain.user.SignupUserDTO;
 import LESW.Together.domain.user.User;
 import LESW.Together.domain.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -29,18 +29,19 @@ public class UserJdbcTemplateRepository implements UserRepository {
 
     @Override
     public User createUser(User user) {
-        String sql = "insert into (user_id, password, user_name, user_role) values " +
-                ":userId, :password, :username, :role";
+        String sql = "insert into users (user_id, password, user_name, user_role) values " +
+                "(:userId, :password, :userName, :userRole)";
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
 
-        MapSqlParameterSource params = new MapSqlParameterSource()
-                .addValue("id", user.getId())
-                .addValue("userId", user.getUserId())
-                .addValue("password", user.getPassword())
-                .addValue("username", user.getUsername())
-                .addValue("role", user.getRole());
+//        MapSqlParameterSource params = new MapSqlParameterSource()
+//                .addValue("id", user.getId())
+//                .addValue("userId", user.getUserId())
+//                .addValue("password", user.getPassword())
+//                .addValue("username", user.getUsername())
+//                .addValue("role", user.getRole());
+        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(user);
 
         template.update(sql, params, keyHolder);
         long key = Objects.requireNonNull(keyHolder.getKey()).longValue();
@@ -51,7 +52,7 @@ public class UserJdbcTemplateRepository implements UserRepository {
     @Override
     public Optional<User> readUser(Long id) {
         String sql = "select * from users where id=:id";
-        User findUserById = template.queryForObject(sql, new MapSqlParameterSource("id", id), User.class);
+        User findUserById = template.queryForObject(sql, new MapSqlParameterSource("id", id), new BeanPropertyRowMapper<>(User.class));
         return Optional.ofNullable(findUserById);
     }
 

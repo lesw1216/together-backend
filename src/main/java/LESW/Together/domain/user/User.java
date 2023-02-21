@@ -3,11 +3,6 @@ package LESW.Together.domain.user;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 @Getter
 @Setter
 //@Entity(name = "users")
@@ -18,14 +13,14 @@ public class User {
 
     private String userId;
     private String password;
-    private String username;
-    private String role;
+    private String userName;
+    private String userRole;
 
-    public User(String userId, String password, String username, String role) {
+    public User(String userId, String password, String userName, String userRole) {
         this.userId = userId;
         this.password = password;
-        this.username = username;
-        this.role = role;
+        this.userName = userName;
+        this.userRole = userRole;
     }
 
     public User() {
@@ -34,9 +29,11 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userId='" + userId + '\'' +
+                "id=" + id +
+                ", userId='" + userId + '\'' +
                 ", password='" + password + '\'' +
-                ", username='" + username + '\'' +
+                ", username='" + userName + '\'' +
+                ", role='" + userRole + '\'' +
                 '}';
     }
 }
