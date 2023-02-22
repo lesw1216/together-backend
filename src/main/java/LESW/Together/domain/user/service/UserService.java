@@ -42,7 +42,7 @@ public class UserService {
         User saveUser = userRepository.createUser(new User(signupUserDTO.getUserId(), encodePwd, signupUserDTO.getUsername(), "user"));
         Question saveQuestion = questionRepository.createQuestion(new Question(saveUser.getId(), signupUserDTO.getKeyNum(), signupUserDTO.getKeyValue()));
 
-        log.info("[회원가입 유저][{}][{}]=", saveUser, saveQuestion);
+        log.info("[회원가입 유저][{}][{}]", saveUser, saveQuestion);
     }
 
     public User findById(Long id) {
@@ -55,19 +55,7 @@ public class UserService {
     }
 
     public SignupUserDTO update(Long id, SignupUserDTO updateUser, String role) {
-        User findUserById = findById(id);
-        HashMap<String, Object> userParam = new HashMap<>();
-        if (!findUserById.getPassword().equals(updateUser.getPassword())) {
-            userParam.put("password", updateUser.getPassword());
-        }
-
-        if (!findUserById.getUserName().equals(updateUser.getUsername())) {
-            userParam.put("userName", updateUser.getUsername());
-        }
-
-        if (!findUserById.getUserRole().equals(role)) {
-            userParam.put("userRole", role);
-        }
+//        new User(updateUser.getUserId(), updateUser.getPassword(), updateUser.getUsername(), role);
 
         userRepository.updateUser(id, new User());
         return updateUser;

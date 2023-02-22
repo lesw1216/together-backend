@@ -81,7 +81,7 @@ public class UserJdbcTemplateRepository implements UserRepository {
     @Override
     public void updateUser(Long id, User updateUser) {
         String sql = "update users set id=:id, user_id=:userId, password=:password" +
-                ", user_name=:username, user_role=:role where id=:id";
+                ", user_name=:userName, user_role=:userRole where id=:id";
 
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(updateUser);
         int update = template.update(sql, parameterSource);
