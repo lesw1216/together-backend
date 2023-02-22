@@ -27,6 +27,17 @@ public class SignupUserDTO {
     @NotBlank(message = "질문의 답을 입력해주세요.")
     private String keyValue;
 
+    public SignupUserDTO() {
+    }
+
+    public SignupUserDTO(String userId, String password, String username, Integer keyNum, String keyValue) {
+        this.userId = userId;
+        this.password = password;
+        this.username = username;
+        this.keyNum = keyNum;
+        this.keyValue = keyValue;
+    }
+
     @Override
     public String toString() {
         return "SignUpUserDTO{" +

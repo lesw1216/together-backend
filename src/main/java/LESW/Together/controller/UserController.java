@@ -1,13 +1,12 @@
 package LESW.Together.controller;
 
 import LESW.Together.domain.user.SignupUserDTO;
-import LESW.Together.domain.user.User;
 import LESW.Together.domain.user.FieldErrorMessageOfSignupUser;
-import LESW.Together.service.UserService;
-import LESW.Together.validator.ValidatorMessage;
+import LESW.Together.domain.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,16 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
-    private final PasswordEncoder passwordEncoder;
     private final UserService userService;
 
-    private final ValidatorMessage validatorMessage;
     @Autowired
-    public UserController(PasswordEncoder passwordEncoder, UserService userService, ValidatorMessage validatorMessage) {
-        this.passwordEncoder = passwordEncoder;
+
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.validatorMessage = validatorMessage;
     }
+
 
 
 
@@ -43,13 +40,11 @@ public class UserController {
 
             log.info("errors={}", bindingResult);
             log.info("messages={}", fieldErrorMessageOfSignupUser);
-            return fieldErrorMessageOfSignupUser;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult);
         }
 
 
-        String hashPassword = passwordEncoder.encode(signUpUserDTO.getPassword());
-        User saveUser = userService.save(new User(signUpUserDTO.getUserId(), hashPassword, signUpUserDTO.getUsername(), null));
-        log.info("회원가입[{}]", saveUser);
-        return saveUser;
+        userService.save(signUpUserDTO);
+        return ResponseEntity.status(HttpStatus.OK).body("msg:{ 가입 성공 }");
     }
 }

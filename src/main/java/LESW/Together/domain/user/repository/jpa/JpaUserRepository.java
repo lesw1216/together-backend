@@ -1,20 +1,18 @@
-package LESW.Together.repository.jpa;
+package LESW.Together.domain.user.repository.jpa;
 
 import LESW.Together.domain.user.User;
-import LESW.Together.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import LESW.Together.domain.user.repository.UserRepository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+//@Repository
 public class JpaUserRepository implements UserRepository {
 
     private final EntityManager em;
 
-    @Autowired
+//    @Autowired
     public JpaUserRepository(EntityManager em) {
         this.em = em;
     }
@@ -41,11 +39,10 @@ public class JpaUserRepository implements UserRepository {
         User findUser = em.find(User.class, id);
         findUser.setUserId(updateUser.getUserId());
         findUser.setPassword(updateUser.getPassword());
-        findUser.setUsername(updateUser.getUsername());
+        findUser.setUserName(updateUser.getUserName());
     }
 
     @Override
-    public User deleteUser(Long id) {
-        return null;
+    public void deleteUser(Long id) {
     }
 }
