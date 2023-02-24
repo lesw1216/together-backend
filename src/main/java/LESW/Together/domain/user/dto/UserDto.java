@@ -1,4 +1,4 @@
-package LESW.Together.domain.user;
+package LESW.Together.domain.user.dto;
 
 import lombok.Getter;
 

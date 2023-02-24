@@ -1,6 +1,6 @@
 package LESW.Together.service;
 
-import LESW.Together.domain.user.SignupUserDTO;
+import LESW.Together.domain.user.dto.SignupUserDTO;
 import LESW.Together.domain.user.User;
 import LESW.Together.domain.user.service.UserService;
 import org.assertj.core.api.Assertions;

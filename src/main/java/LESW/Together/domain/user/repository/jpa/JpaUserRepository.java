@@ -45,4 +45,10 @@ public class JpaUserRepository implements UserRepository {
     @Override
     public void deleteUser(Long id) {
     }
+
+    @Override
+    public Optional<User> findUserByUserId(String userId) {
+        return Optional.empty();
+    }
+
 }
