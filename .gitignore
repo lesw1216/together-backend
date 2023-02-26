@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### SecretKey Generate ###
-/src/main/java/LESW/Together/security/jwt/SecretKey.class
+/src/main/java/LESW/Together/security/jwt/SecretKey.java
