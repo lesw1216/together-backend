@@ -1,4 +1,4 @@
-package LESW.Together.security;
+package LESW.Together.security.component;
 
 import LESW.Together.domain.user.User;
 import LESW.Together.domain.user.repository.UserRepository;
@@ -22,15 +22,15 @@ public class CustomUserDetailsService implements  UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        log.info("customUserDetailsService invoke loadUserByUsername");
-        log.info("customUserDetailsService argument={}", userId);
+        log.info("=== customUserDetailsService invoke loadUserByUsername ===");
+        log.info("=== customUserDetailsService argument={} ===", userId);
         Optional<User> userByUserId = userRepository.findUserByUserId(userId);
         if (userByUserId.isEmpty()) {
             throw new UsernameNotFoundException("not found userId = " + userId);
         }
         User findUser = userByUserId.get();
         return org.springframework.security.core.userdetails.User.builder()
-                .username(findUser.getUserName())
+                .username(findUser.getUsername())
                 .password(findUser.getPassword())
                 .authorities(findUser.getUserRole())
                 .build();

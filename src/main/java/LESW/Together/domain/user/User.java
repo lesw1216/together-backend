@@ -1,12 +1,24 @@
 package LESW.Together.domain.user;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-@Getter
-@Setter
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import java.util.Collection;
+import java.util.List;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
 //@Entity(name = "users")
-public class User {
+public class User implements UserDetails {
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,15 +28,8 @@ public class User {
     private String userName;
     private String userRole;
 
-    public User(String userId, String password, String userName, String userRole) {
-        this.userId = userId;
-        this.password = password;
-        this.userName = userName;
-        this.userRole = userRole;
-    }
-
-    public User() {
-    }
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Override
     public String toString() {
@@ -35,5 +40,35 @@ public class User {
                 ", username='" + userName + '\'' +
                 ", role='" + userRole + '\'' +
                 '}';
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return userId;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

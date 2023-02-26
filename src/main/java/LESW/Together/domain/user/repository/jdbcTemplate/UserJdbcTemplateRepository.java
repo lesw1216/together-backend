@@ -29,7 +29,7 @@ public class UserJdbcTemplateRepository implements UserRepository {
     @Override
     public User createUser(User user) {
         String sql = "insert into users (user_id, password, user_name, user_role) values " +
-                "(:userId, :password, :userName, :userRole)";
+                "(:userId, :password, :username, :userRole)";
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -77,7 +77,7 @@ public class UserJdbcTemplateRepository implements UserRepository {
     @Override
     public void updateUser(Long id, User updateUser) {
         String sql = "update users set id=:id, user_id=:userId, password=:password" +
-                ", user_name=:userName, user_role=:userRole where id=:id";
+                ", user_name=:username, user_role=:userRole where id=:id";
 
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(updateUser);
         int update = template.update(sql, parameterSource);
@@ -105,6 +105,6 @@ public class UserJdbcTemplateRepository implements UserRepository {
             return user;
         });
 
-        return Optional.ofNullable(findUserByUserId);
+        return Optional.of(Objects.requireNonNull(findUserByUserId));
     }
 }
