@@ -12,7 +12,7 @@ public interface TodoListRepository {
 
     List<TodoList> findAllTodoList(Long userPk, LocalDate createdDate);
 
-    void update(TodoList updateTodoList);
+    Optional<TodoList> update(TodoList updateTodoList);
 
     void delete(Long id);
 

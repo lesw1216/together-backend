@@ -2,9 +2,7 @@ package LESW.Together.domain.todolist;
 
 import lombok.*;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -23,5 +21,11 @@ public class TodoList {
         this.isCompletion = isCompletion;
         this.createdDate = createdDate;
         this.userPk = userPk;
+    }
+
+    @Override
+    public String toString() {
+        return "[id=" + id + "][content=" + content + "][isCompletion=" + isCompletion +
+                "][createdDate=" + createdDate + "][userPk=" + userPk + "]";
     }
 }

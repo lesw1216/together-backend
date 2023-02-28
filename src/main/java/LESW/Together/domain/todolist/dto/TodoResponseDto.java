@@ -1,18 +1,16 @@
-package LESW.Together.domain.todolist;
+package LESW.Together.domain.todolist.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TodolistDto {
+@Builder
+public class TodoResponseDto {
+    private Long id;
     private String content;
     private boolean isCompletion;
-    private LocalDate createdDate;
-    private Long userPk;
 }

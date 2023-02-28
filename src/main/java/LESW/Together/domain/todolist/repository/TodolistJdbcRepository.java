@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -61,7 +60,7 @@ public class TodolistJdbcRepository implements TodoListRepository{
     }
 
     @Override
-    public void update(TodoList updateTodoList) {
+    public Optional<TodoList> update(TodoList updateTodoList) {
         String sql = "update todolists set content=:content, is_completion=:isCompletion " +
                 "where id=:id";
 
@@ -71,6 +70,7 @@ public class TodolistJdbcRepository implements TodoListRepository{
                 .addValue("id", updateTodoList.getId());
 
         template.update(sql, param);
+        return Optional.of(updateTodoList);
     }
     @Override
     public void delete(Long id) {
@@ -80,12 +80,12 @@ public class TodolistJdbcRepository implements TodoListRepository{
     }
 
     @Override
-    public void allDelete(Long userPk, LocalDate createDate) {
-        String sql = "delete from todolists where user_pk=:userPk and created_date=:createDate";
+    public void allDelete(Long userPk, LocalDate createdDate) {
+        String sql = "delete from todolists where user_pk=:userPk and created_date=:createdDate";
 
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("userPk", userPk)
-                .addValue("createdDate", createDate);
+                .addValue("createdDate", createdDate);
 
         template.update(sql, params);
     }

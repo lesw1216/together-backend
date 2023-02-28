@@ -42,33 +42,23 @@ class TodolistJdbcRepositoryTest {
 
     @Test
     void save() {
-        Timestamp today = Timestamp.valueOf(LocalDateTime.now());
-        LocalDate now = LocalDate.now();
-        TodoList todolist = new TodoList("운동하기", false, now, saveUser.getId());
+        TodoList todolist = new TodoList("운동하기", false, LocalDate.now(), saveUser.getId());
         Optional<TodoList> OptionalList = repository.save(todolist);
         TodoList saveList = OptionalList.orElseThrow();
-
-        String localDateString = LocalDate.now().toString();
-        log.info("localDateString = {}", localDateString);
-        log.info("localTimeDate.now() = {}", LocalDate.now());
-        log.info("{}", today);
 
         Assertions.assertThat(saveList).isEqualTo(todolist);
     }
 
     @Test
     void findAllTodoList() {
-        LocalDate now = LocalDate.now();
-        TodoList todolist = new TodoList("운동하기", false, now, saveUser.getId());
+        TodoList todolist = new TodoList("운동하기", false, LocalDate.now(), saveUser.getId());
         Optional<TodoList> OptionalList = repository.save(todolist);
         TodoList saveList = OptionalList.orElseThrow();
 
-        List<TodoList> allTodoList = repository.findAllTodoList(saveUser.getId(), now);
+        List<TodoList> allTodoList = repository.findAllTodoList(saveUser.getId(), LocalDate.now());
 
         for (TodoList todoList : allTodoList) {
-            if (todoList.getId().equals(saveList.getId())) {
-                Assertions.assertThat(todoList.getId()).isEqualTo(saveList.getId());
-            }
+            Assertions.assertThat(todoList.getId()).isEqualTo(saveList.getId());
         }
     }
 
@@ -79,21 +69,25 @@ class TodolistJdbcRepositoryTest {
         Optional<TodoList> OptionalList = repository.save(todolist);
         TodoList saveList = OptionalList.orElseThrow();
 
-        TodoList updateList = new TodoList(saveList.getId(), "밥먹기", false, now, saveUser.getId());
+        // 업데이트
+        TodoList inputUpdateList = new TodoList(saveList.getId(), "밥먹기", false, now, saveUser.getId());
+        TodoList updateList = repository.update(inputUpdateList).orElse(new TodoList());
 
-        repository.update(updateList);
-        List<TodoList> allTodoList = repository.findAllTodoList(saveList.getUserPk(), now);
-        allTodoList.forEach(list ->
-                System.out.println("list.getId() = " + list.getId() + " list.getContent = " + list.getContent()));
+        Assertions.assertThat(updateList.getContent()).isEqualTo(inputUpdateList.getContent());
+        Assertions.assertThat(updateList.isCompletion()).isEqualTo(inputUpdateList.isCompletion());
     }
 
     @Test
     void delete() {
-        LocalDate now = LocalDate.now();
-        TodoList todolist = new TodoList("운동하기", false, now, saveUser.getId());
+        TodoList todolist = new TodoList("운동하기", false, LocalDate.now(), saveUser.getId());
         Optional<TodoList> OptionalList = repository.save(todolist);
         TodoList saveList = OptionalList.orElseThrow();
 
         repository.delete(saveList.getId());
+
+        List<TodoList> allTodoList = repository.findAllTodoList(saveUser.getId(), LocalDate.now());
+        for (TodoList todoList : allTodoList) {
+            Assertions.assertThat(todoList.getId()).isNotEqualTo(saveList.getId());
+        }
     }
 }
