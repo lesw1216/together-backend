@@ -1,6 +1,7 @@
 package LESW.Together.user;
 
 import LESW.Together.domain.user.Question;
+import LESW.Together.domain.user.Role;
 import LESW.Together.domain.user.User;
 import LESW.Together.domain.user.repository.QuestionRepository;
 import LESW.Together.domain.user.repository.jdbcTemplate.UserJdbcTemplateRepository;
@@ -9,7 +10,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -30,14 +30,14 @@ public class UserSignupTest {
 
     @Test
     void UserCreate() {
-        User user = new User("testUser","leofsdf", "홍길동","esfds");
+        User user = new User("testUser","leofsdf", "홍길동","esfds", Role.USER);
         User createUser = userRepository.createUser(user);
         Assertions.assertThat(user).isEqualTo(createUser);
     }
 
     @Test
     void QuestionCreate() {
-        User user = new User("testUser", "1234", "홍길동", "user");
+        User user = new User("testUser", "1234", "홍길동", "user", Role.USER);
         User saveUser = userRepository.createUser(user);
         Question saveQuestion = new Question(saveUser.getId(), 0, "상정고");
 
@@ -48,7 +48,7 @@ public class UserSignupTest {
 
     @Test
     void UserFInd() {
-        User newUser = new User("testUser", "1234", "홍길동", "user");
+        User newUser = new User("testUser", "1234", "홍길동", "user", Role.USER);
         User saveUser = userRepository.createUser(newUser);
 
         Optional<User> findUserById = userRepository.readUser(saveUser.getId());
@@ -67,7 +67,7 @@ public class UserSignupTest {
 
     @Test
     void UserDelete() {
-        User newUser = new User("testUser", "1234", "홍길동", "user");
+        User newUser = new User("testUser", "1234", "홍길동", "user", Role.USER);
         User saveUser = userRepository.createUser(newUser);
         userRepository.deleteUser(saveUser.getId());
 

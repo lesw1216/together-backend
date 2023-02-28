@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
@@ -20,31 +21,27 @@ import java.util.Optional;
 public class UserJdbcTemplateRepository implements UserRepository {
 
     private final NamedParameterJdbcTemplate template;
+    private final SimpleJdbcInsert simpleJdbcInsert;
 
     @Autowired
     public UserJdbcTemplateRepository(DataSource dataSource) {
         template = new NamedParameterJdbcTemplate(dataSource);
+        simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
+                .withTableName("users")
+                .usingGeneratedKeyColumns("id");
     }
 
     @Override
     public User createUser(User user) {
-        String sql = "insert into users (user_id, password, user_name, user_role) values " +
-                "(:userId, :password, :username, :userRole)";
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("user_id", user.getUserId())
+                .addValue("password", user.getPassword())
+                .addValue("user_name", user.getUsername())
+                .addValue("user_role", user.getRole());
 
-        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+        Number key = simpleJdbcInsert.executeAndReturnKey(params);
 
-
-//        MapSqlParameterSource params = new MapSqlParameterSource()
-//                .addValue("id", user.getId())
-//                .addValue("userId", user.getUserId())
-//                .addValue("password", user.getPassword())
-//                .addValue("username", user.getUsername())
-//                .addValue("role", user.getRole());
-        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(user);
-
-        template.update(sql, params, keyHolder);
-        long key = Objects.requireNonNull(keyHolder.getKey()).longValue();
-        user.setId(key);
+        user.setId(key.longValue());
         log.info("user.setId={}", user.getId());
         return user;
     }
