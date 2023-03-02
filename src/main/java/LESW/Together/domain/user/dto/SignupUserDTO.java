@@ -1,5 +1,6 @@
 package LESW.Together.domain.user.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Range;
 
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
  * 회원가입시 객체를 받을 DTO
  */
 @Getter
+@Builder
 public class SignupUserDTO {
     @NotBlank(message = "아이디를 입력해주세요.")
     private String userId;

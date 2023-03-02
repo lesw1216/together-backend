@@ -37,7 +37,7 @@ public class UserJdbcTemplateRepository implements UserRepository {
                 .addValue("user_id", user.getUserId())
                 .addValue("password", user.getPassword())
                 .addValue("user_name", user.getUsername())
-                .addValue("user_role", user.getRole());
+                .addValue("user_role", user.getUserRole());
 
         Number key = simpleJdbcInsert.executeAndReturnKey(params);
 

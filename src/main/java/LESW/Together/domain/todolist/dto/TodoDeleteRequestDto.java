@@ -12,11 +12,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TodoRequestDto {
-    private String content;
-    private boolean isCompletion;
+public class TodoDeleteRequestDto {
+    private Long id;
+    private Long userPk;
 
     @DateTimeFormat(pattern = "yyyy-mm-dd")
     private LocalDate createdDate;
-    private Long userPk;
+
 }

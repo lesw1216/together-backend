@@ -99,6 +99,9 @@ public class AuthenticationService {
 
         return AuthenticationResponse.builder()
                 .token(jwt)
+                .userPk(userByUserId.getId())
+                .userId(userByUserId.getUserId())
+                .username(userByUserId.getUsername())
                 .build();
     }
 
