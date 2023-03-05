@@ -9,11 +9,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TodoDeleteRequestDto implements TodoListServiceDtoConvertor {
-    private Long id;
+public class TodoGetRequestDto implements TodoListServiceDtoConvertor {
     private Long userPk;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -22,11 +22,8 @@ public class TodoDeleteRequestDto implements TodoListServiceDtoConvertor {
     @Override
     public TodoServiceDto toServiceDto() {
         return TodoServiceDto.builder()
-                .todoPk(this.id)
                 .userPk(this.userPk)
                 .createdDate(LocalDate.from(this.createdDate))
                 .build();
     }
-
-
 }

@@ -1,22 +1,23 @@
-package LESW.Together.domain.todolist.dto;
+package LESW.Together.domain.todolist.service;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TodoRequestDto {
+public class TodoServiceDto {
+
+    private Long todoPk;
     private String content;
     private boolean isCompletion;
 
     @DateTimeFormat(pattern = "yyyy-mm-dd")
     private LocalDate createdDate;
     private Long userPk;
+
+
 }

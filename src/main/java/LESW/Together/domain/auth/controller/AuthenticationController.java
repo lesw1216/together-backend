@@ -36,7 +36,7 @@ public class AuthenticationController {
 
             log.info("errors={}", bindingResult);
             log.info("messages={}", fieldErrorMessageOfSignupUser);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AuthenticationResponse());
         }
 
 

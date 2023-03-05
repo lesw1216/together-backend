@@ -1,7 +1,6 @@
 package LESW.Together.domain.todolist.service;
 
 import LESW.Together.domain.todolist.TodoList;
-import LESW.Together.domain.todolist.dto.TodoRequestDto;
 import LESW.Together.domain.todolist.dto.TodoResponseDto;
 import LESW.Together.domain.todolist.repository.TodoListRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,13 +19,8 @@ public class TodoService {
 
     private final TodoListRepository todoListRepository;
 
-    public TodoResponseDto save(TodoRequestDto todoRequestDto) {
-        TodoList requsetTodoList = TodoList.builder()
-                .content(todoRequestDto.getContent())
-                .isCompletion(todoRequestDto.isCompletion())
-                .createdDate(todoRequestDto.getCreatedDate())
-                .userPk(todoRequestDto.getUserPk())
-                .build();
+    public TodoResponseDto save(TodoServiceDto todoServiceDto) {
+        TodoList requsetTodoList = getTodoList(todoServiceDto);
 
         Optional<TodoList> optionalList = todoListRepository.save(requsetTodoList);
         TodoList saveList = optionalList.orElse(new TodoList());
@@ -35,9 +29,10 @@ public class TodoService {
         return getTodoResponseDto(saveList);
     }
 
+    public List<TodoResponseDto> findAllTodoList(TodoServiceDto todoServiceDto) {
+        final Long userPk = todoServiceDto.getUserPk();
+        final LocalDate createdDate = todoServiceDto.getCreatedDate();
 
-
-    public List<TodoResponseDto> findAllTodoList(Long userPk, LocalDate createdDate) {
         List<TodoResponseDto> todoResponseDtoList = new ArrayList<>();
 
         List<TodoList> allTodoList = todoListRepository.findAllTodoList(userPk, createdDate);
@@ -48,20 +43,49 @@ public class TodoService {
         return todoResponseDtoList;
     }
 
-    public void deleteTodoListById(Long id) {
+    public void deleteTodoListById(TodoServiceDto todoServiceDto) {
+        final Long id = todoServiceDto.getTodoPk();
         todoListRepository.delete(id);
     }
 
-    public void allDeleteByIdAndDate(Long userPk, LocalDate createdDate) {
+    public void allDeleteByIdAndDate(TodoServiceDto todoServiceDto) {
+        final Long userPk = todoServiceDto.getUserPk();
+        final LocalDate createdDate = todoServiceDto.getCreatedDate();
         todoListRepository.allDelete(userPk, createdDate);
     }
 
+    public TodoServiceDto updateTodoList(TodoServiceDto todoServiceDto) {
+        TodoList convertTodoList = TodoList.builder()
+                .id(todoServiceDto.getTodoPk())
+                .content(todoServiceDto.getContent())
+                .isCompletion(todoServiceDto.isCompletion())
+                .build();
+
+        Optional<TodoList> optional = todoListRepository.update(convertTodoList);
+
+        TodoList updateTodoList = optional.orElse(new TodoList());
+
+        return TodoServiceDto.builder()
+                .todoPk(updateTodoList.getId())
+                .content(updateTodoList.getContent())
+                .isCompletion(updateTodoList.isCompletion())
+                .build();
+    }
 
     private static TodoResponseDto getTodoResponseDto(TodoList todoList) {
         return TodoResponseDto.builder()
                 .id(todoList.getId())
                 .isCompletion(todoList.isCompletion())
                 .content(todoList.getContent())
+                .build();
+    }
+
+    private static TodoList getTodoList(TodoServiceDto todoServiceDto) {
+        return TodoList.builder()
+                .content(todoServiceDto.getContent())
+                .isCompletion(todoServiceDto.isCompletion())
+                .createdDate(LocalDate.from(todoServiceDto.getCreatedDate()))
+                .userPk(todoServiceDto.getUserPk())
                 .build();
     }
 }
